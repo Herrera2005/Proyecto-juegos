@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="pagina.js" defer></script>
+    
+    
+</head>
+<body>
+    <h1>Primer Proyecto Serio</h1>
+    <section id = "descripcion">
+        <h2>Descripción del Proyecto</h2>
+        <p>En este proyecto probare implementar distintos juegos los cuales funcionaran cada que active un boton</p>
+    </section>
+    <section id ="contenedor">
+        <ul class = "listaJuegos">
+            <li class="juego">Tetris</li>
+            <li class="juego">Snake</li>
+            <li class="juego">Ping Pong</li>
+        </ul>
+        <section id = "infoJuego">
+            <section>
+                <label for="Score">Score:</label>
+                <span id="Score">0</span>
+            </section>
+            <input type="button" id="iniciar" value="Reiniciar Juego">
+        </section>
+        <div id="pantallaContenedor">
+            <canvas id="pantalla" ></canvas>
+        </div>
+        
+        
+    </section>
+</body>
+</html>
