@@ -6,14 +6,18 @@ const BlockSize = 30; // Tamaño de cada bloque
 const boardWidth = 14; // Ancho del tablero en bloques
 const boardHeight = 28; // Alto del tablero en bloques
 
+// Configurar el tamaño del lienzo
 pantalla.width = BlockSize * boardWidth;
 pantalla.height = BlockSize * boardHeight;
 
+// Escalar el contexto para que cada bloque sea de tamaño 1x1 en coordenadas del juego
 ctx.scale(boardWidth*2, boardHeight);
 
-const board = matriz(boardWidth, boardHeight);
+// Crear la matriz del tablero
+let board = matriz(boardWidth, boardHeight);
 const boardColores = Array.from({ length: boardHeight }, () => Array(boardWidth).fill(null));
 
+//Pieza inicial
 const piece = {
   shape: [
     [1, 1, 0],
@@ -21,9 +25,14 @@ const piece = {
   ],
   position: { x: 4, y: 0 }
 };
+
+// Colores de las piezas
 let colores = ['blue', 'red', 'green', 'yellow', 'purple', 'cyan', 'orange'];
 
+// Color inicial
 let color = 'blue';
+
+// Definición de las piezas
 const pieces =[
   [
     [1, 1, 0],
@@ -46,16 +55,19 @@ const pieces =[
   ],[[1,1,1,1]]
 ];
 
+// Configuración de la lógica del juego
 let lastTime = 0;
 let dropCounter = 0;
 let rafId = null;
 let stopped = false;
 
+// Función de actualización del juego
 function update(time = 0){
   if (stopped) return; // stop if canceled
   const deltaTime = time - lastTime;
   lastTime = time;
 
+  // Ajustar la velocidad de caída según la puntuación
   dropCounter += deltaTime;
   if(dropCounter > 700 && scoreDisplay.textContent < 100){
     piece.position.y++;
@@ -72,10 +84,12 @@ function update(time = 0){
     fijarPieza();
   }
 
+  // Dibujar el estado actual del juego
   draw();
   rafId = window.requestAnimationFrame(update);
 }
 
+//funcion de dibujo
 function draw(){
   ctx.fillStyle = '#000000';
   ctx.fillRect(0, 0, boardWidth, boardHeight);
@@ -100,6 +114,7 @@ function draw(){
   });
 }
 
+// Iniciar el juego al hacer clic en el botón de inicio
 const startClickHandler = () => {
   for (let y = 0; y < boardHeight; y++) {
     board[y].fill(0);
@@ -111,7 +126,10 @@ const startClickHandler = () => {
   lastTime = 0;
   dropCounter = 0;
 };
+
+// Agregar el event listener para el botón de inicio
 startButton.addEventListener('click', startClickHandler);
+
 
 const keydownHandler = (event) => {
   if(event.key === 'ArrowLeft'){
@@ -145,6 +163,7 @@ const keydownHandler = (event) => {
 };
 document.addEventListener('keydown', keydownHandler);
 
+// Función para detectar colisiones
 function colision(){
   return piece.shape.some((row, y) => {
     return row.some((value, x) => {
@@ -153,8 +172,12 @@ function colision(){
     });
   });
 }
+
+// Iniciar la actualización del juego
 update();
 
+
+// para toda la lógica de cancelación del juego
 function cancel(){
   stopped = true;
   if (rafId) cancelAnimationFrame(rafId);
